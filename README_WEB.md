@@ -1,13 +1,17 @@
 # REALM — Versi Web (HTML5) dari Prototipe Godot Chibi 3D
 
 **Dibuat:** 19 November 2026. Gratis 100%, tanpa bayar.
-**Isi:** desa Wilwatikta 3D chibi **v0.17** (di-export ulang 20 Nov 2026
-dari ChibiVillage v0.17) — **baru: refactor save + akibat dialog** —
-`village.gd` (367 baris) dipisah lagi: save + dunia real-time keluar ke
-sistem baru `save_system.gd` (172 baris) dan akibat dialog selesai ke
-sistem baru `dialogue_effects.gd` (67 baris); village.gd kini 200 baris
-dan hanya orkestrator; perilaku game sama
-persis seperti v0.16, tanpa fitur baru dan tanpa perubahan tampilan; **Penjahit v0.14 tetap** — NPC Nyai Sekar di Rumah
+**Isi:** desa Wilwatikta 3D chibi **v0.18** (di-export ulang 20 Nov 2026
+dari ChibiVillage v0.18) — **baru: dialog NPC pindah ke Dialogue Manager
++ efek ketik** — semua dialog Pak Sastro, Empu Wira, Nyai Kirana, dan
+Nyai Sekar kini resource Dialogue Manager (4 file `.dialogue`, 15 judul,
+34 baris) dengan efek ketik di panel dialog (50 huruf/detik) + bunyi ketik
+pelan (blip sinus, tanpa file audio baru); **teks dialog dan akibat
+setelah dialog selesai SAMA PERSIS seperti v0.17** (diuji byte-per-byte);
+**refactor v0.17 tetap** — save + dunia real-time di `save_system.gd`
+dan akibat dialog di `dialogue_effects.gd`; village.gd 200 baris dan
+hanya orkestrator; perilaku game sama persis seperti v0.16, tanpa fitur
+baru dan tanpa perubahan tampilan; **Penjahit v0.14 tetap** — NPC Nyai Sekar di Rumah
 Penjahit (nama "Nyai Sekar" dari build Spaces, BELUM dikonfirmasi sehnxi),
 trial Jahit urutan motif Parang Sekar 4 langkah (pilih 1/2/3, salah langkah
 = coba lagi langkah itu), magang Penjahit (ulangi motif 3x lagi →
@@ -21,10 +25,13 @@ tiap progres + tombol "Simpan" di HUD) dan padi terus tumbuh walau game
 ditutup (dihitung dari timestamp save saat kembali; hama TIDAK menyerang
 saat offline); saat buka game ada pilihan **Lanjut / Mulai Baru** (Mulai
 Baru minta konfirmasi hapus);
-**performa v0.11 tetap: `index.pck` 6,0 MB** (naik 2.164 byte dari 6,0 MB
-v0.16 khusus untuk kode refactor v0.17 — tidak ada GLB/audio baru; resource
-tak terpakai tetap tidak ikut ter-export lewat `exclude_filter` di preset
-export; total folder web 46,2 MB); **gameplay 3 menit pertama v0.10 tetap:
+**performa v0.11 tetap (dengan satu pengecualian wajib): `index.pck`
+6,3 MB** (naik 292.328 byte dari 6,0 MB v0.17 — runtime Dialogue Manager
+kini ikut ter-export, karena `exclude_filter` lama membuang seluruh
+`addons/*` sehingga script autoload Dialogue Manager tidak ada di pck
+dan semua dialog akan gagal di web; filter kini membuang semua addon
+KECUALI `dialogue_manager`; tidak ada GLB/audio baru; resource tak
+terpakai tetap tidak ikut ter-export; total folder web 45 MB); **gameplay 3 menit pertama v0.10 tetap:
 pelacak quest yang selalu terlihat** ("★ Tujuan: …" di bawah strip status — temui Pak
 Sastro → tanam 3 petak → panen 3 karung → magang → Tempa → Dagang → Jahit),
 **Pak Sastro menyapa** saat pemain baru mendekat ("Nak, kemari!"),
@@ -67,7 +74,7 @@ Detail gameplay: `~/workspace/REALM_godot/docs/CHIBI3D_v0.1.md`.
 | `index.html` | Halaman utama — buka ini lewat server (lihat bawah) |
 | `index.js` | Loader/engine Godot untuk web (274 KB) |
 | `index.wasm` | Engine Godot WebAssembly, build **no-threads** (38 MB) |
-| `index.pck` | Data game: scene ChibiVillage, script, aset KayKit + audio (6,0 MB; v0.17 6.319.924 byte, MD5 `dd03546f0f1a486a72a6a5e371bdcf8c`, berbeda dari v0.16, berisi 2 file sistem baru v0.17 (`save_system`, `dialogue_effects`) + 10 modul v0.16 (`hud_main`, `trial_panels`, `touch_controls`, `save_menu`, `hud_widgets`, `plot_system`, `trial_farming`, `trial_forge`, `trial_trade`, `trial_sew`) + facade `hud_system.gd` (291 baris) + koordinator `trial_system.gd` (329 baris) + `village.gd` (200 baris) + `save_manager.gd` + `player_chibi.gd` v0.9 + `npc_sekar.gd` + 4 GLB yang dipakai — Rogue_chibi, Rogue_Hooded, Barbarian, Mage — + bangunan desa + musik ambient + 7 SFX; naik 2.164 byte dari v0.16 khusus untuk kode refactor, tidak ada GLB/audio baru; file basi `index.pck-Z3j9Q8` (786 KB, sisa export lama, tidak dirujuk `index.html`/`index.js`) dihapus dari folder ini) |
+| `index.pck` | Data game: scene ChibiVillage, script, aset KayKit + audio (6,3 MB; v0.18 6.612.252 byte, MD5 `b2c411dbe69ce942e5e94223343ce667`, berbeda dari v0.17, berisi 232 entri — baru: 4 resource `.dialogue` (Sastro/Wira/Kirana/Sekar, sebagai `.godot/imported/*.tres`) + runtime Dialogue Manager 4.2.0 (`addons/dialogue_manager/`, 92 entri, `dialogue_manager.gdc` + `dialogue_resource/line/response/constants/processor/settings.gdc`; filter export diubah agar addon ini ikut — tanpanya semua dialog gagal di web) + 2 file sistem v0.17 (`save_system`, `dialogue_effects`) + 10 modul v0.16 (`hud_main`, `trial_panels`, `touch_controls`, `save_menu`, `hud_widgets`, `plot_system`, `trial_farming`, `trial_forge`, `trial_trade`, `trial_sew`) + facade `hud_system.gd` + koordinator `trial_system.gd` + `village.gd` (200 baris) + `save_manager.gd` + `player_chibi.gd` v0.9 + `npc_sekar.gd` + 4 GLB yang dipakai — Rogue_chibi, Rogue_Hooded, Barbarian, Mage — + bangunan desa + musik ambient + 7 SFX + blip ketik (dibuat saat runtime, tanpa file baru); naik 292.328 byte dari v0.17 khusus untuk Dialogue Manager, tidak ada GLB/audio baru; tidak ada addon lain yang ikut; file basi `index.pck-Z3j9Q8` (786 KB, sisa export lama, tidak dirujuk `index.html`/`index.js`) dihapus dari folder ini) |
 | `index.audio.worklet.js`, `index.audio.position.worklet.js` | Audio web |
 | `index.png`, `index.icon.png`, `index.apple-touch-icon.png` | Ikon |
 
