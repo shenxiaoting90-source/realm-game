@@ -1,13 +1,13 @@
 # REALM — Versi Web (HTML5) dari Prototipe Godot Chibi 3D
 
 **Dibuat:** 19 November 2026. Gratis 100%, tanpa bayar.
-**Isi:** desa Wilwatikta 3D chibi **v0.16** (di-export ulang 20 Nov 2026
-dari ChibiVillage v0.16) — **baru: refactor lanjutan kode** — `hud_system.gd`
-(727 baris) dipecah jadi `hud_main` + `trial_panels` + `touch_controls` +
-`save_menu` (+ `hud_widgets`), dan `trial_system.gd` (601 baris) dipecah jadi
-`plot_system` + `trial_farming` + `trial_forge` + `trial_trade` + `trial_sew`
-(dengan `trial_system.gd` tinggal sebagai koordinator); perilaku game sama
-persis seperti v0.15, tanpa fitur baru dan tanpa perubahan tampilan; **Penjahit v0.14 tetap** — NPC Nyai Sekar di Rumah
+**Isi:** desa Wilwatikta 3D chibi **v0.17** (di-export ulang 20 Nov 2026
+dari ChibiVillage v0.17) — **baru: refactor save + akibat dialog** —
+`village.gd` (367 baris) dipisah lagi: save + dunia real-time keluar ke
+sistem baru `save_system.gd` (172 baris) dan akibat dialog selesai ke
+sistem baru `dialogue_effects.gd` (67 baris); village.gd kini 200 baris
+dan hanya orkestrator; perilaku game sama
+persis seperti v0.16, tanpa fitur baru dan tanpa perubahan tampilan; **Penjahit v0.14 tetap** — NPC Nyai Sekar di Rumah
 Penjahit (nama "Nyai Sekar" dari build Spaces, BELUM dikonfirmasi sehnxi),
 trial Jahit urutan motif Parang Sekar 4 langkah (pilih 1/2/3, salah langkah
 = coba lagi langkah itu), magang Penjahit (ulangi motif 3x lagi →
@@ -21,8 +21,8 @@ tiap progres + tombol "Simpan" di HUD) dan padi terus tumbuh walau game
 ditutup (dihitung dari timestamp save saat kembali; hama TIDAK menyerang
 saat offline); saat buka game ada pilihan **Lanjut / Mulai Baru** (Mulai
 Baru minta konfirmasi hapus);
-**performa v0.11 tetap: `index.pck` 6,0 MB** (naik 12.376 byte dari 6,0 MB
-v0.15 khusus untuk kode refactor lanjutan — tidak ada GLB/audio baru; resource
+**performa v0.11 tetap: `index.pck` 6,0 MB** (naik 2.164 byte dari 6,0 MB
+v0.16 khusus untuk kode refactor v0.17 — tidak ada GLB/audio baru; resource
 tak terpakai tetap tidak ikut ter-export lewat `exclude_filter` di preset
 export; total folder web 46,2 MB); **gameplay 3 menit pertama v0.10 tetap:
 pelacak quest yang selalu terlihat** ("★ Tujuan: …" di bawah strip status — temui Pak
@@ -67,7 +67,7 @@ Detail gameplay: `~/workspace/REALM_godot/docs/CHIBI3D_v0.1.md`.
 | `index.html` | Halaman utama — buka ini lewat server (lihat bawah) |
 | `index.js` | Loader/engine Godot untuk web (274 KB) |
 | `index.wasm` | Engine Godot WebAssembly, build **no-threads** (38 MB) |
-| `index.pck` | Data game: scene ChibiVillage, script, aset KayKit + audio (6,0 MB; v0.16 6.317.760 byte, MD5 `bc63e7089c992cd4aca50bbc1a7a6817`, berbeda dari v0.15, berisi 10 file modul baru v0.16 (`hud_main`, `trial_panels`, `touch_controls`, `save_menu`, `hud_widgets`, `plot_system`, `trial_farming`, `trial_forge`, `trial_trade`, `trial_sew`) + facade `hud_system.gd` (291 baris) + koordinator `trial_system.gd` (329 baris) + `village.gd` (367 baris) + `save_manager.gd` + `player_chibi.gd` v0.9 + `npc_sekar.gd` + 4 GLB yang dipakai — Rogue_chibi, Rogue_Hooded, Barbarian, Mage — + bangunan desa + musik ambient + 7 SFX; naik 12.376 byte dari v0.15 khusus untuk kode refactor, tidak ada GLB/audio baru; file basi `index.pck-Z3j9Q8` (786 KB, sisa export lama, tidak dirujuk `index.html`/`index.js`) dihapus dari folder ini) |
+| `index.pck` | Data game: scene ChibiVillage, script, aset KayKit + audio (6,0 MB; v0.17 6.319.924 byte, MD5 `dd03546f0f1a486a72a6a5e371bdcf8c`, berbeda dari v0.16, berisi 2 file sistem baru v0.17 (`save_system`, `dialogue_effects`) + 10 modul v0.16 (`hud_main`, `trial_panels`, `touch_controls`, `save_menu`, `hud_widgets`, `plot_system`, `trial_farming`, `trial_forge`, `trial_trade`, `trial_sew`) + facade `hud_system.gd` (291 baris) + koordinator `trial_system.gd` (329 baris) + `village.gd` (200 baris) + `save_manager.gd` + `player_chibi.gd` v0.9 + `npc_sekar.gd` + 4 GLB yang dipakai — Rogue_chibi, Rogue_Hooded, Barbarian, Mage — + bangunan desa + musik ambient + 7 SFX; naik 2.164 byte dari v0.16 khusus untuk kode refactor, tidak ada GLB/audio baru; file basi `index.pck-Z3j9Q8` (786 KB, sisa export lama, tidak dirujuk `index.html`/`index.js`) dihapus dari folder ini) |
 | `index.audio.worklet.js`, `index.audio.position.worklet.js` | Audio web |
 | `index.png`, `index.icon.png`, `index.apple-touch-icon.png` | Ikon |
 
@@ -167,6 +167,7 @@ ikuti saja. Pak Sastro menyapa saat kamu mendekat; dekati dan tekan E.
 
 ## Verifikasi (19 Nov 2026, VM headless)
 
+- **Export ulang v0.17 (20 Nov 2026):** exit 0. `run/main_scene` sudah dikembalikan ke Boot, 3 autoload dev sudah dikembalikan. File `.pck` diperiksa: MD5 `dd03546f0f1a486a72a6a5e371bdcf8c` (berbeda dari v0.16 `bc63e7089c992cd4aca50bbc1a7a6817`), berisi 2 file sistem baru v0.17 (`save_system.gd`, `dialogue_effects.gd`) + `village.gd` (200 baris) + 10 modul v0.16 + `save_manager.gd` + `player_chibi.gd` v0.9 + 4 GLB yang dipakai (121 entri, 6.308.302 byte isi, nol entri `addons/`/`tools/`/`docs/`, nol `Knight.glb`, nol runner uji). PCK diverifikasi dengan memuatnya ke proyek Godot kosong: scene termuat dan mencetak v0.17, SaveSystem + DialogueEffects ada, 4 modul HUD + 5 modul trial ada, panel trial tersembunyi, NPC Sekar di (12,5, 6,8), dialog Sastro → `met_sastro`, tanam petak 1 → file save ada, quest "Tanam padi di 3 petak sawah (1/3)", usap timur menggerakkan pemain, tahan jalan timur 300 frame berhenti di tepi (15,597, y ≈ 0), tombol AKSI membuka dialog Sastro, tombol bisu → bus di-mute + save muted true, urutan Jahit 1,2,3,1 → lulus, 3 pukulan bagus → lulus Tempa, Jual Pasti +10 → lulus Dagang (**PCK_CHECK PASS, 26/26**). Server HTTP lokal sementara (`python3 -m http.server 8946`, lalu dimatikan): 8 file utama status **200**. Uji otomatis **TEST V0.17 PASS 178/178** (runner sementara sudah dihapus) — struktur baru + regresi v0.10–v0.16 (quest, sapaan, 4 trial + 4 magang, hama 14 detik + beku saat dialog, save/load + save lama v0.13 + offline growth + laporan kembali, suara/mute, interaksi terdekat, batas desa 4 arah + jaring pengaman, keyboard/D-pad/usap/AKSI). Backup v0.16 ada di `/tmp/REALM_web_v16_backup/`. Zip baru: `workspace/user/files/REALM_web_v0.17.zip` (16.349.558 byte, MD5 `b94b9c479f9fb83eb4cca1ccd5f8312d`). Catatan jujur: total baris kode naik (3.941 → 4.013) karena pemisahan; yang berkurang adalah tanggung jawab per file, bukan jumlah baris; 15 SCRIPT ERROR di log export semuanya dari plugin editor (Cyclops/BetterTerrain) — bukan error game. Satu kekurangan nyata yang ditemukan uji dan sudah diperbaiki: judul HUD sempat masih "v0.16".
 - **Export ulang v0.16 (20 Nov 2026):** exit 0. `run/main_scene` sudah dikembalikan ke Boot, 3 autoload dev sudah dikembalikan. File `.pck` diperiksa: MD5 `bc63e7089c992cd4aca50bbc1a7a6817` (berbeda dari v0.15 `4c9199374dc2861a65facf5ccfbfa7a5`), berisi 10 file modul baru v0.16 (`hud_main`, `trial_panels`, `touch_controls`, `save_menu`, `hud_widgets`, `plot_system`, `trial_farming`, `trial_forge`, `trial_trade`, `trial_sew`) + facade/koordinator `hud_system.gd` (291 baris) + `trial_system.gd` (329 baris) + `village.gd` (367 baris) + `save_manager.gd` + `player_chibi.gd` v0.9 + 4 GLB yang dipakai (116 entri, 6.305.154 byte isi, nol entri `addons/`/`tools/`/`docs/`). PCK diverifikasi dengan memuatnya ke proyek Godot kosong: scene termuat dan mencetak v0.16, 4 modul HUD + 5 modul trial ada, dialog Sastro → `met_sastro`, tanam petak 1 → file save ada, usap timur menggerakkan pemain, tahan jalan timur 300 frame berhenti di tepi (x = 15,597, y ≈ 0), tombol AKSI membuka dialog Sastro, tombol bisu → bus di-mute + save muted true, urutan Jahit 1,2,3,1 → lulus, 3 pukulan bagus → lulus Tempa, Jual Pasti → lulus Dagang (**PCK_CHECK PASS, 36/36**). Server HTTP lokal sementara (`python3 -m http.server 8945`, lalu dimatikan): 8 file utama status **200**. Uji otomatis **TEST V0.16 PASS 238/238** (runner sementara sudah dihapus) — struktur baru + regresi v0.10–v0.15. Backup v0.15 ada di `/tmp/REALM_web_v15_backup/`. Zip baru: `workspace/user/files/REALM_web_v0.16.zip` (16.362.786 byte, MD5 `859b889ee37b8a9666b9e95031c7ee86`). Catatan jujur: total baris kode naik (2.816 → 3.359) karena pemisahan; yang berkurang adalah tanggung jawab per file, bukan jumlah baris; 14 SCRIPT ERROR di log export semuanya dari plugin editor (Cyclops/BetterTerrain) — bukan error game.
 - **Export ulang v0.14 (19 Nov 2026):** exit 0. `run/main_scene` sudah dikembalikan ke Boot, 3 autoload dev sudah dikembalikan. File `.pck` diperiksa: MD5 `48850072738e8120fbbe65ae457f690a` (berbeda dari v0.13 `1c11ba5f2ab031b7334c34f58e1c52ee`), berisi `village.gd` v0.14 + `npc_sekar.gd` (baru) + `save_manager.gd` + `player_chibi.gd` v0.9 + 4 GLB yang dipakai (76 entri, 6.273.482 byte isi, nol entri `addons/`/`tools/`). PCK diverifikasi dengan memuatnya ke proyek Godot kosong: scene termuat dan mencetak v0.14, panel Jahit ada (tersembunyi), NPC Sekar ada di (12,5, 6,8), dialog Sekar → `sew_ready`, trial Jahit (salah langkah lalu urutan 1,2,3,1) → lulus + file save ada (`sew_passed` true), usap timur menggerakkan pemain, tahan jalan timur 300 frame berhenti di tepi (x = 15,597, y ≈ 0), tombol AKSI membuka dialog Sastro, pelacak quest menunjukkan "★ Tujuan: Tanam padi di 3 petak sawah (0/3)" (**PCK_CHECK PASS, 17/17**). Server HTTP lokal sementara (`python3 -m http.server 8943`, lalu dimatikan): 8 file utama status **200**. Uji otomatis **TEST V0.14 PASS 130/130** (runner sementara sudah dihapus) — dialog Sekar, trial Jahit (salah = coba lagi, tidak reset), magang Penjahit 3x, quest Jahit, save/load Penjahit, save lama v0.13 tetap bisa di-load, + regresi v0.10–v0.13. Backup v0.13 ada di `/tmp/REALM_web_v13_backup/`. Zip baru: `workspace/user/files/REALM_web_v0.14.zip` (16.332.387 byte, MD5 `4c09649bb39b633ee523ed8e84ad1507`). Catatan jujur: nama "Nyai Sekar" belum dikonfirmasi sehnxi (dari build Spaces); urutan motif tetap sama setiap kali; "desain baju tahap pertama" baru berupa gelar/teks, belum ada lemari/baju yang bisa diganti; SFX Jahit memakai ulang SFX Tempa; 4 SCRIPT ERROR di log export semuanya dari plugin editor (Cyclops/BetterTerrain) — bukan error game.
 - **Export ulang v0.13 (19 Nov 2026):** exit 0. `run/main_scene` sudah dikembalikan ke Boot, 3 autoload dev sudah dikembalikan. File `.pck` diperiksa: MD5 `1c11ba5f2ab031b7334c34f58e1c52ee` (berbeda dari v0.12 `02f833cc29652158567abb2d79c5db5b`), berisi `village.gd` v0.13 + `save_manager.gd` + `player_chibi.gd` v0.9 + 4 GLB yang dipakai + bangunan desa + musik ambient + 7 SFX (74 entri, nol entri `addons/`). PCK diverifikasi dengan memuatnya ke proyek Godot kosong: scene termuat dan mencetak v0.13, tombol Simpan ada, menu save tersembunyi (tanpa save), tanam petak 1 → file save ADA dan load dari PCK (karung 0, planted 1), usap timur menggerakkan pemain, tahan jalan timur 300 frame berhenti di tepi (x = 15,597, y ≈ 0), AKSI membuka dialog Sastro, pelacak quest "Tanam padi di 3 petak sawah (1/3)" (**PCK_CHECK PASS**). Uji otomatis **TEST V0.13 PASS 142/142**. Server HTTP lokal sementara (`python3 -m http.server 8942`, lalu dimatikan): 8 file utama status **200**. Zip: `REALM_web_v0.13.zip` (16.325.431 byte).
@@ -320,6 +321,16 @@ ikuti saja. Pak Sastro menyapa saat kamu mendekat; dekati dan tekan E.
 
 ## Keterbatasan (jujur)
 
+- **v0.17 ini hanya refactor kode — tampilan TIDAK diperbaiki.** Keluhan
+  sehnxi soal palet "tidak hidup", detailing karakter, baju ganti, dan
+  "3D tapi kayak 1D" masih berlaku; perbaikan visual v1.0 dihentikan
+  dan tidak dilanjutkan. Total baris kode malah naik (3.941 → 4.013)
+  karena pemisahan — yang berkurang adalah tanggung jawab per file,
+  bukan jumlah baris. Sisa yang masih berantakan: `world_builder.gd`
+  (423 baris, semua bangunan desa dalam satu file), dialog masih array
+  string di kode (belum Dialogue Manager), `trial_system.gd` (329 baris)
+  masih memegang prompt + interaksi sekaligus, `hud_system.gd` masih
+  mengekspos ~35 referensi node lama demi kompatibilitas v0.15.
 - **v0.14 ini hanya konten Penjahit — tampilan TIDAK diperbaiki.** Keluhan
   sehnxi soal palet "tidak hidup", detailing karakter, baju ganti, dan
   "3D tapi kayak 1D" masih berlaku; perbaikan visual v1.0 dihentikan
