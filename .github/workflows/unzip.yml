@@ -1,0 +1,24 @@
+name: Unzip game export
+
+on:
+  workflow_dispatch:
+
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract Godot web export
+        run: |
+          unzip -o REALM_web_v0.5.zip
+          rm REALM_web_v0.5.zip
+          ls -la
+      - name: Commit extracted files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Extract REALM web export" || echo "Nothing to commit"
+          git push
