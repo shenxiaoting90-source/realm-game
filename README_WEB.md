@@ -1,12 +1,20 @@
 # REALM — Versi Web (HTML5) dari Prototipe Godot Chibi 3D
 
 **Dibuat:** 19 November 2026. Gratis 100%, tanpa bayar.
-**Isi:** desa Wilwatikta 3D chibi **v0.11** (di-export ulang 19 Nov 2026
-dari ChibiVillage v0.11) — **performa maksimal: `index.pck` menyusut
-dari 15,0 MB ke 5,4 MB** (resource tak terpakai tidak ikut ter-export
-lagi — addon dev, GLB Knight/Rogue, audio tak terpakai, runner uji,
-cache editor — lewat `exclude_filter` di preset export; total folder
-web dari 55,6 MB ke 45,5 MB); **gameplay 3 menit pertama v0.10 tetap:
+**Isi:** desa Wilwatikta 3D chibi **v0.13** (di-export ulang 19 Nov 2026
+dari ChibiVillage v0.13) — **baru: suara + musik** — musik ambient desa
+loop pelan (sintesis bebas lisensi, 32 detik) + 7 efek suara sintesis
+(tanam, panen, tempa bagus/meleset, koin dagang, usir hama, lulus
+trial/magang) + tombol bisu "Suara: Nyala/Mati" di HUD yang tersimpan di
+save; **save + dunia real-time v0.12 tetap** — progres tersimpan (JSON
+`user://`, auto-save tiap progres + tombol "Simpan" di HUD) dan padi
+terus tumbuh walau game ditutup (dihitung dari timestamp save saat
+kembali; hama TIDAK menyerang saat offline); saat buka game ada pilihan
+**Lanjut / Mulai Baru** (Mulai Baru minta konfirmasi hapus);
+**performa v0.11 tetap: `index.pck` 6,0 MB** (naik 0,58 MB dari 5,4 MB
+khusus untuk audio — sample ambient 571 KB + 7 sample SFX ~36 KB;
+resource tak terpakai tetap tidak ikut ter-export lewat `exclude_filter`
+di preset export; total folder web 46,1 MB); **gameplay 3 menit pertama v0.10 tetap:
 pelacak quest yang selalu terlihat** ("★ Tujuan: …" di bawah strip status — temui Pak
 Sastro → tanam 3 petak → panen 3 karung → magang → Tempa → Dagang),
 **Pak Sastro menyapa** saat pemain baru mendekat ("Nak, kemari!"),
@@ -48,7 +56,7 @@ Detail gameplay: `~/workspace/REALM_godot/docs/CHIBI3D_v0.1.md`.
 | `index.html` | Halaman utama — buka ini lewat server (lihat bawah) |
 | `index.js` | Loader/engine Godot untuk web (274 KB) |
 | `index.wasm` | Engine Godot WebAssembly, build **no-threads** (38 MB) |
-| `index.pck` | Data game: scene ChibiVillage, script, aset KayKit (5,4 MB; v0.11 5.663.200 byte, MD5 `8ccafc661e33ab3a6564370a0292334b`, berbeda dari v0.10, berisi `village.gd` v0.11 + `player_chibi.gd` v0.9 + 4 GLB yang dipakai — Rogue_chibi, Rogue_Hooded, Barbarian, Mage — + bangunan desa; menyusut 62% dari v0.10 14.967.160 byte karena `exclude_filter` di preset export mengeluarkan semua addon dev, GLB Knight/Rogue yang tak terpakai, audio tak terpakai, runner uji, dan cache editor; file basi `index.pck-Z3j9Q8` (786 KB, sisa export lama, tidak dirujuk `index.html`/`index.js`) dihapus dari folder ini) |
+| `index.pck` | Data game: scene ChibiVillage, script, aset KayKit + audio (6,0 MB; v0.13 6.275.328 byte, MD5 `1c11ba5f2ab031b7334c34f58e1c52ee`, berbeda dari v0.12, berisi `village.gd` v0.13 + `save_manager.gd` + `player_chibi.gd` v0.9 + 4 GLB yang dipakai — Rogue_chibi, Rogue_Hooded, Barbarian, Mage — + bangunan desa + musik ambient + 7 SFX; naik 0,58 MB dari v0.12 khusus untuk audio; file basi `index.pck-Z3j9Q8` (786 KB, sisa export lama, tidak dirujuk `index.html`/`index.js`) dihapus dari folder ini) |
 | `index.audio.worklet.js`, `index.audio.position.worklet.js` | Audio web |
 | `index.png`, `index.icon.png`, `index.apple-touch-icon.png` | Ikon |
 
@@ -137,6 +145,7 @@ ikuti saja. Pak Sastro menyapa saat kamu mendekat; dekati dan tekan E.
 
 ## Verifikasi (19 Nov 2026, VM headless)
 
+- **Export ulang v0.12 (19 Nov 2026):** exit 0. `run/main_scene` sudah dikembalikan ke Boot, 3 autoload dev sudah dikembalikan. File `.pck` diperiksa: MD5 `02f833cc29652158567abb2d79c5db5b` (berbeda dari v0.11 `8ccafc661e33ab3a6564370a0292334b`), berisi `village.gd` v0.12 + `save_manager.gd` (baru) + `player_chibi.gd` v0.9 + 4 GLB yang dipakai (58 entri, 5.659.739 byte isi, nol entri `addons/`). PCK diverifikasi dengan memuatnya ke proyek Godot kosong: scene termuat dan mencetak v0.12, tombol Simpan ada, menu save tersembunyi (tanpa save), tanam petak 1 → file save ADA dan load dari PCK (karung 0, planted 1), usap timur menggerakkan pemain (-5 → 0 setelah 60 frame), tahan jalan timur 300 frame berhenti di tepi (x = 15,597, y ≈ 0, tidak jatuh), tombol AKSI membuka dialog Sastro, pelacak quest menunjukkan "★ Tujuan: Tanam padi di 3 petak sawah (1/3) — tekan E di petak kosong" (**PCK_CHECK PASS**). Uji otomatis **TEST V0.12 PASS 129/129**. Server HTTP lokal sementara (`python3 -m http.server 8941`, lalu dimatikan): 8 file utama status **200**. Zip: `REALM_web_v0.12.zip` (15.858.820 byte). Catatan jujur: save web tersimpan di IndexedDB browser per situs (hapus data situs / ganti browser = save hilang, tidak tersinkron antar perangkat); 9 SCRIPT ERROR di log export semuanya dari plugin editor (BetterTerrain/Cyclops, karena autoload dev dilepas sementara saat export) — bukan error game.
 - **Export ulang v0.11 (19 Nov 2026):** exit 0, tanpa SCRIPT ERROR
   (hanya pesan leak shutdown generik + satu SCRIPT ERROR dari plugin
   editor Cyclops saat editor headless keluar — bukan error game).
