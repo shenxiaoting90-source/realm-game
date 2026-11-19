@@ -1,16 +1,21 @@
 # REALM — Versi Web (HTML5) dari Prototipe Godot Chibi 3D
 
 **Dibuat:** 19 November 2026. Gratis 100%, tanpa bayar.
-**Isi:** desa Wilwatikta 3D chibi **v0.7** (di-export ulang 19 Nov 2026
-dari ChibiVillage v0.7) — Novice kini model chibi Blender
-(`Rogue_chibi.glb`: kepala dilebarkan/dibulatkan, tunik/jubah ungu,
-logam emas, 76 animasi utuh); plus kontrol sentuh HP v0.6: D-pad kiri bawah
-untuk jalan, tombol AKSI kanan bawah (pengganti E), tombol Dagang 1/2
-saat panel dagang terbuka; plus semua isi v0.5: langit prosedural
-hangat, palet ungu-emas konsisten di semua panel HUD,
-label lokasi (BENGKEL / PASAR / SAWAH WILWATIKTA / RUMAH PENJAHIT),
-kamera wide shot lebih tinggi/mundur, tanaman 3 tahap dengan batang
-yang ikut tumbuh, tanah dan sawah lebih kontras, bunga di alun-alun;
+**Isi:** desa Wilwatikta 3D chibi **v0.8** (di-export ulang 19 Nov 2026
+dari ChibiVillage v0.8) — gerak **usap jari di HP**: usap di mana saja di
+area game, karakter jalan mengikuti arah usapan (makin jauh makin cepat,
+lepas jari = berhenti), TANPA joystick visual sama sekali; plus kontrol
+sentuh HP v0.6 (D-pad kiri bawah untuk jalan, tombol AKSI kanan bawah
+pengganti E, tombol Dagang 1/2 saat panel dagang terbuka) dan keyboard
+WASD/panah + E yang tetap jalan; plus bug interaksi sejak v0.2 yang
+diperbaiki (di tengah petak 1 kini menanam, di sisi barat landasan kini
+menempa — interaksi dipilih dari yang terdekat); plus semua isi v0.7:
+Novice model chibi Blender (`Rogue_chibi.glb`: kepala dilebarkan/
+dibulatkan, tunik/jubah ungu, logam emas, 76 animasi utuh); plus semua
+isi v0.5: langit prosedural hangat, palet ungu-emas konsisten di semua
+panel HUD, label lokasi (BENGKEL / PASAR / SAWAH WILWATIKTA / RUMAH
+PENJAHIT), kamera wide shot lebih tinggi/mundur, tanaman 3 tahap dengan
+batang yang ikut tumbuh, tanah dan sawah lebih kontras, bunga di alun-alun;
 sawah 3 tahap tumbuh, HUD strip atas ungu-emas + bar progres panen, panel
 Tempa dengan bar zona hijau, panel Dagang 1/2, alun-alun + sumur di
 tengah, rumah penjahit; karakter rigged KayKit
@@ -27,7 +32,7 @@ Detail gameplay: `~/workspace/REALM_godot/docs/CHIBI3D_v0.1.md`.
 | `index.html` | Halaman utama — buka ini lewat server (lihat bawah) |
 | `index.js` | Loader/engine Godot untuk web (274 KB) |
 | `index.wasm` | Engine Godot WebAssembly, build **no-threads** (38 MB) |
-| `index.pck` | Data game: scene ChibiVillage, script, aset KayKit (10,9 MB; v0.7 10.871.876 byte, MD5 `9b0ff2a30d9ddda5f68bdf7068ba3e00`, berbeda dari v0.6, berisi `village.gd` v0.7 + `Rogue_chibi.glb` yang kini dipakai pemain Novice) |
+| `index.pck` | Data game: scene ChibiVillage, script, aset KayKit (14,9 MB; v0.8 14.951.276 byte, MD5 `336e66fc20ff4e4164bb1b6a1307947f`, berbeda dari v0.7, berisi `village.gd` v0.8 + `Rogue_chibi.glb`; membesar karena 5 plugin pengembangan — Cyclops, Better Terrain, Inventory Manager, Juicee, gd-YAFSM — ikut ter-export oleh `export_filter="all_resources"`, padahal belum dipakai kode game) |
 | `index.audio.worklet.js`, `index.audio.position.worklet.js` | Audio web |
 | `index.png`, `index.icon.png`, `index.apple-touch-icon.png` | Ikon |
 
