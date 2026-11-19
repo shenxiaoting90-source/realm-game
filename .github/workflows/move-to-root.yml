@@ -12,9 +12,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Move REALM_web contents to root
         run: |
-          shopt -s dotglob
-          mv REALM_web/* .
-          rmdir REALM_web
+          if [ -d REALM_web ]; then
+            shopt -s dotglob
+            mv REALM_web/* .
+            rmdir REALM_web
+          else
+            echo "No REALM_web folder; game files are already at root."
+          fi
           ls -la
       - name: Commit moved files
         run: |
