@@ -1,0 +1,25 @@
+name: Move game to site root
+
+on:
+  workflow_dispatch:
+
+jobs:
+  move:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move REALM_web contents to root
+        run: |
+          shopt -s dotglob
+          mv REALM_web/* .
+          rmdir REALM_web
+          ls -la
+      - name: Commit moved files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Move game files to site root" || echo "Nothing to commit"
+          git push
