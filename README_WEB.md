@@ -1,9 +1,15 @@
 # REALM — Versi Web (HTML5) dari Prototipe Godot Chibi 3D
 
 **Dibuat:** 19 November 2026. Gratis 100%, tanpa bayar.
-**Isi:** desa Wilwatikta 3D chibi **v0.26** (di-export ulang 20 Nov 2026
-dari ChibiVillage v0.26) — **baru: village.gd dipangkas (305 → 231
-baris) + guard urutan rakit WorldContext** (`check_registered` /
+**Isi:** desa Wilwatikta 3D chibi **v0.27** (di-export ulang 20 Nov 2026
+dari ChibiVillage v0.27) — **baru: wiring sinyal pindah dari village.gd
+ke helper `signal_wiring.gd`** (semua 23 `connect()` antar sistem —
+nama sinyal, pengirim, penerima, urutan — SAMA PERSIS seperti v0.26;
+`village.gd` 231 → 214 baris, hanya memanggil
+`SignalWiring.wire(ctx, self)` sekali; handler desa tetap di
+`village.gd`; perilaku game SAMA PERSIS seperti v0.26, tanpa fitur
+baru dan tanpa perubahan tampilan) — **pangkas v0.26 tetap** — village.gd dipangkas (305 → 231
+baris) + guard urutan rakit WorldContext (`check_registered` /
 `check_trial_modules`; `_ready` dua fase — buat + daftarkan semua
 sistem dulu, baru `setup(ctx)` berurutan; perilaku game SAMA PERSIS
 seperti v0.25, tanpa fitur baru dan tanpa perubahan tampilan) — **refactor setup v0.25 tetap** — satu WorldContext
