@@ -12,13 +12,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Extract Godot web export
         run: |
-          unzip -o REALM_web_v0.9.zip
-          rm REALM_web_v0.9.zip
+          unzip -o REALM_web_v0.12.zip
+          rm REALM_web_v0.12.zip
           ls -la
       - name: Commit extracted files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "Extract REALM web export v0.9" || echo "Nothing to commit"
+          git commit -m "Extract REALM web export v0.12" || echo "Nothing to commit"
           git push
