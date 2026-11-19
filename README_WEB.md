@@ -1,9 +1,17 @@
 # REALM — Versi Web (HTML5) dari Prototipe Godot Chibi 3D
 
 **Dibuat:** 19 November 2026. Gratis 100%, tanpa bayar.
-**Isi:** desa Wilwatikta 3D chibi **v0.24** (di-export ulang 20 Nov 2026
-dari ChibiVillage v0.24) — **baru: pagar bambu visual di tepi desa +
-pesan mentok** — pagar bambu prosedural di ±23,3 sepanjang 4 sisi tepi
+**Isi:** desa Wilwatikta 3D chibi **v0.26** (di-export ulang 20 Nov 2026
+dari ChibiVillage v0.26) — **baru: village.gd dipangkas (305 → 231
+baris) + guard urutan rakit WorldContext** (`check_registered` /
+`check_trial_modules`; `_ready` dua fase — buat + daftarkan semua
+sistem dulu, baru `setup(ctx)` berurutan; perilaku game SAMA PERSIS
+seperti v0.25, tanpa fitur baru dan tanpa perubahan tampilan) — **refactor setup v0.25 tetap** — satu WorldContext
+(`WorldContext` dirakit `village.gd` sekali, diberikan ke `setup(ctx)`
+tiap sistem menggantikan deretan parameter `SaveSystem` 7 dan
+`InteractionSystem` 9+9; komunikasi tetap lewat sinyal; perilaku game
+SAMA PERSIS seperti v0.24, tanpa fitur baru dan tanpa perubahan
+tampilan) — **pagar bambu v0.24 tetap** — pagar bambu prosedural di ±23,3 sepanjang 4 sisi tepi
 (92 tiang + 8 bilah, tanpa gerbang — dunia di luar belum ada); saat
 pemain mendorong ke tepi ~1 detik, status/HUD menampilkan "Ujung desa
 — pagar bambu. Dunia di luar belum terbuka." (sekali per mentok,
