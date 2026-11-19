@@ -1,29 +1,39 @@
 # REALM — Versi Web (HTML5) dari Prototipe Godot Chibi 3D
 
 **Dibuat:** 19 November 2026. Gratis 100%, tanpa bayar.
-**Isi:** desa Wilwatikta 3D chibi **v0.13** (di-export ulang 19 Nov 2026
-dari ChibiVillage v0.13) — **baru: suara + musik** — musik ambient desa
-loop pelan (sintesis bebas lisensi, 32 detik) + 7 efek suara sintesis
-(tanam, panen, tempa bagus/meleset, koin dagang, usir hama, lulus
-trial/magang) + tombol bisu "Suara: Nyala/Mati" di HUD yang tersimpan di
-save; **save + dunia real-time v0.12 tetap** — progres tersimpan (JSON
-`user://`, auto-save tiap progres + tombol "Simpan" di HUD) dan padi
-terus tumbuh walau game ditutup (dihitung dari timestamp save saat
-kembali; hama TIDAK menyerang saat offline); saat buka game ada pilihan
-**Lanjut / Mulai Baru** (Mulai Baru minta konfirmasi hapus);
-**performa v0.11 tetap: `index.pck` 6,0 MB** (naik 0,58 MB dari 5,4 MB
-khusus untuk audio — sample ambient 571 KB + 7 sample SFX ~36 KB;
-resource tak terpakai tetap tidak ikut ter-export lewat `exclude_filter`
-di preset export; total folder web 46,1 MB); **gameplay 3 menit pertama v0.10 tetap:
+**Isi:** desa Wilwatikta 3D chibi **v0.15** (di-export ulang 19 Nov 2026
+dari ChibiVillage v0.15) — **baru: refactor kode** — `village.gd` 2.422 baris
+dipecah jadi 9 sistem kecil (GameState, WorldBuilder, QuestTracker,
+AudioSystem, HudSystem, DialogueSystem, TrialSystem, PestSystem,
+InputSystem); perilaku game sama persis seperti v0.14, tanpa fitur baru
+dan tanpa perubahan tampilan; **Penjahit v0.14 tetap** — NPC Nyai Sekar di Rumah
+Penjahit (nama "Nyai Sekar" dari build Spaces, BELUM dikonfirmasi sehnxi),
+trial Jahit urutan motif Parang Sekar 4 langkah (pilih 1/2/3, salah langkah
+= coba lagi langkah itu), magang Penjahit (ulangi motif 3x lagi →
+"Penjahit Pemula"), masuk pelacak quest (tujuan ke-4) + save JSON; **suara
++ musik v0.13 tetap** — musik ambient desa loop pelan (sintesis bebas
+lisensi, 32 detik) + 7 efek suara sintesis (tanam, panen, tempa
+bagus/meleset, koin dagang, usir hama, lulus trial/magang) + tombol bisu
+"Suara: Nyala/Mati" di HUD yang tersimpan di save; **save + dunia
+real-time v0.12 tetap** — progres tersimpan (JSON `user://`, auto-save
+tiap progres + tombol "Simpan" di HUD) dan padi terus tumbuh walau game
+ditutup (dihitung dari timestamp save saat kembali; hama TIDAK menyerang
+saat offline); saat buka game ada pilihan **Lanjut / Mulai Baru** (Mulai
+Baru minta konfirmasi hapus);
+**performa v0.11 tetap: `index.pck` 6,0 MB** (naik 7.396 byte dari 6,0 MB
+v0.13 khusus untuk kode Penjahit — tidak ada GLB/audio baru; resource
+tak terpakai tetap tidak ikut ter-export lewat `exclude_filter` di preset
+export; total folder web 46,2 MB); **gameplay 3 menit pertama v0.10 tetap:
 pelacak quest yang selalu terlihat** ("★ Tujuan: …" di bawah strip status — temui Pak
-Sastro → tanam 3 petak → panen 3 karung → magang → Tempa → Dagang),
+Sastro → tanam 3 petak → panen 3 karung → magang → Tempa → Dagang → Jahit),
 **Pak Sastro menyapa** saat pemain baru mendekat ("Nak, kemari!"),
 **feedback tiap aksi** (status menghitung petak/karung/pukulan, prompt
 menampilkan sisa detik tumbuh), **hama adil 14 detik** (dulu 10 detik,
 dengan hitung mundur di status + prompt, dan timer berhenti selama
 dialog terbuka), dan **magang jelas setelah lulus trial** (panen 3
 karung lagi → Petani Pemula; 3 pukulan bagus lagi → Pandai Besi Pemula;
-3 transaksi lagi → Saudagar Pemula); plus batas desa v0.9: karakter
+3 transaksi lagi → Saudagar Pemula; ulangi motif Parang Sekar 3x lagi →
+Penjahit Pemula); plus batas desa v0.9: karakter
 tidak bisa lagi keluar desa lalu jatuh (clamp posisi ke [-16,16] + 4
 dinding tak terlihat di tepi tanah + jaring pengaman kembali ke spawn);
 plus gerak **usap jari di HP** v0.8: usap di mana saja di
@@ -45,7 +55,7 @@ Tempa dengan bar zona hijau, panel Dagang 1/2, alun-alun + sumur di
 tengah, rumah penjahit; karakter rigged KayKit
 Adventurers CC0 dengan animasi jalan, desa KayKit Medieval Hexagon,
 trial **Tani** (Pak Sastro), **Tempa** (Empu Wira), **Dagang**
-(Nyai Kirana), plus **hama sawah**.
+(Nyai Kirana), **Jahit** (Nyai Sekar), plus **hama sawah**.
 Sama seperti `scenes/chibi3d/ChibiVillage.tscn` di proyek Godot.
 Detail gameplay: `~/workspace/REALM_godot/docs/CHIBI3D_v0.1.md`.
 
@@ -56,7 +66,7 @@ Detail gameplay: `~/workspace/REALM_godot/docs/CHIBI3D_v0.1.md`.
 | `index.html` | Halaman utama — buka ini lewat server (lihat bawah) |
 | `index.js` | Loader/engine Godot untuk web (274 KB) |
 | `index.wasm` | Engine Godot WebAssembly, build **no-threads** (38 MB) |
-| `index.pck` | Data game: scene ChibiVillage, script, aset KayKit + audio (6,0 MB; v0.13 6.275.328 byte, MD5 `1c11ba5f2ab031b7334c34f58e1c52ee`, berbeda dari v0.12, berisi `village.gd` v0.13 + `save_manager.gd` + `player_chibi.gd` v0.9 + 4 GLB yang dipakai — Rogue_chibi, Rogue_Hooded, Barbarian, Mage — + bangunan desa + musik ambient + 7 SFX; naik 0,58 MB dari v0.12 khusus untuk audio; file basi `index.pck-Z3j9Q8` (786 KB, sisa export lama, tidak dirujuk `index.html`/`index.js`) dihapus dari folder ini) |
+| `index.pck` | Data game: scene ChibiVillage, script, aset KayKit + audio (6,0 MB; v0.15 6.305.384 byte, MD5 `4c9199374dc2861a65facf5ccfbfa7a5`, berbeda dari v0.14, berisi 9 file sistem baru v0.15 (`game_state`, `world_builder`, `quest_tracker`, `audio_system`, `hud_system`, `dialogue_system`, `trial_system`, `pest_system`, `input_system`) + `village.gd` tipis (362 baris) + `save_manager.gd` + `player_chibi.gd` v0.9 + `npc_sekar.gd` + 4 GLB yang dipakai — Rogue_chibi, Rogue_Hooded, Barbarian, Mage — + bangunan desa + musik ambient + 7 SFX; naik 22.660 byte dari v0.14 khusus untuk kode refactor, tidak ada GLB/audio baru; file basi `index.pck-Z3j9Q8` (786 KB, sisa export lama, tidak dirujuk `index.html`/`index.js`) dihapus dari folder ini) |
 | `index.audio.worklet.js`, `index.audio.position.worklet.js` | Audio web |
 | `index.png`, `index.icon.png`, `index.apple-touch-icon.png` | Ikon |
 
@@ -93,10 +103,15 @@ pakai keyboard seperti biasa.
   panen, mulai menempa, memukul saat mini-game tempa berjalan, usir hama
 - **1 / 2** — saat pilihan dagang terbuka: 1 = Jual Pasti (+10 gold),
   2 = Kirim Jauh (hasil bervariasi, dijelaskan alasannya)
+- **1 / 2 / 3** — saat panel jahit terbuka: pilih motif Parang Sekar
+  (1 = Parang, 2 = Mega Mendung, 3 = Kawung) sesuai urutan di panel;
+  salah langkah = coba lagi langkah itu, kain tidak rusak
 - **Di HP (layar sentuh, v0.6):** D-pad kiri bawah (▲ ▼ ◀ ▶) untuk
   jalan, tombol **AKSI** kanan bawah sebagai pengganti E (bicara, lanjut
   dialog, tanam, panen, tempa, usir hama), tombol **1 — Jual Pasti /
-  2 — Kirim Jauh** muncul di atas tombol AKSI saat panel dagang terbuka.
+  2 — Kirim Jauh** muncul di atas tombol AKSI saat panel dagang terbuka,
+  tombol **1 — Parang / 2 — Mega / 3 — Kawung** muncul di atas tombol
+  AKSI saat panel jahit terbuka.
   Tombol sentuh hanya muncul di layar sentuh; di laptop/PC tetap
   tersembunyi.
 
@@ -121,6 +136,12 @@ ikuti saja. Pak Sastro menyapa saat kamu mendekat; dekati dan tekan E.
    dialog. Ke lapak, E, lalu 1 (Jual Pasti) atau 2 (Kirim Jauh).
    Satu transaksi selesai = lulus → "Murid Nyai Kirana". Magang:
    3 transaksi lagi → "Saudagar Pemula".
+4. **Jahit:** ke Nyai Sekar (di Rumah Penjahit, timur-selatan), E, baca
+   dialog. Ke meja jahit di depan rumahnya, E, lalu pilih motif sesuai
+   urutan Parang → Mega → Kawung → Parang dengan tombol 1, 2, atau 3.
+   Salah langkah = coba lagi langkah itu. Empat langkah benar = lulus
+   → "Murid Nyai Sekar". Magang: ulangi motif 3x lagi → "Penjahit
+   Pemula".
 
 ## Cara export ini dibuat (supaya bisa diulang)
 
@@ -145,6 +166,8 @@ ikuti saja. Pak Sastro menyapa saat kamu mendekat; dekati dan tekan E.
 
 ## Verifikasi (19 Nov 2026, VM headless)
 
+- **Export ulang v0.14 (19 Nov 2026):** exit 0. `run/main_scene` sudah dikembalikan ke Boot, 3 autoload dev sudah dikembalikan. File `.pck` diperiksa: MD5 `48850072738e8120fbbe65ae457f690a` (berbeda dari v0.13 `1c11ba5f2ab031b7334c34f58e1c52ee`), berisi `village.gd` v0.14 + `npc_sekar.gd` (baru) + `save_manager.gd` + `player_chibi.gd` v0.9 + 4 GLB yang dipakai (76 entri, 6.273.482 byte isi, nol entri `addons/`/`tools/`). PCK diverifikasi dengan memuatnya ke proyek Godot kosong: scene termuat dan mencetak v0.14, panel Jahit ada (tersembunyi), NPC Sekar ada di (12,5, 6,8), dialog Sekar → `sew_ready`, trial Jahit (salah langkah lalu urutan 1,2,3,1) → lulus + file save ada (`sew_passed` true), usap timur menggerakkan pemain, tahan jalan timur 300 frame berhenti di tepi (x = 15,597, y ≈ 0), tombol AKSI membuka dialog Sastro, pelacak quest menunjukkan "★ Tujuan: Tanam padi di 3 petak sawah (0/3)" (**PCK_CHECK PASS, 17/17**). Server HTTP lokal sementara (`python3 -m http.server 8943`, lalu dimatikan): 8 file utama status **200**. Uji otomatis **TEST V0.14 PASS 130/130** (runner sementara sudah dihapus) — dialog Sekar, trial Jahit (salah = coba lagi, tidak reset), magang Penjahit 3x, quest Jahit, save/load Penjahit, save lama v0.13 tetap bisa di-load, + regresi v0.10–v0.13. Backup v0.13 ada di `/tmp/REALM_web_v13_backup/`. Zip baru: `workspace/user/files/REALM_web_v0.14.zip` (16.332.387 byte, MD5 `4c09649bb39b633ee523ed8e84ad1507`). Catatan jujur: nama "Nyai Sekar" belum dikonfirmasi sehnxi (dari build Spaces); urutan motif tetap sama setiap kali; "desain baju tahap pertama" baru berupa gelar/teks, belum ada lemari/baju yang bisa diganti; SFX Jahit memakai ulang SFX Tempa; 4 SCRIPT ERROR di log export semuanya dari plugin editor (Cyclops/BetterTerrain) — bukan error game.
+- **Export ulang v0.13 (19 Nov 2026):** exit 0. `run/main_scene` sudah dikembalikan ke Boot, 3 autoload dev sudah dikembalikan. File `.pck` diperiksa: MD5 `1c11ba5f2ab031b7334c34f58e1c52ee` (berbeda dari v0.12 `02f833cc29652158567abb2d79c5db5b`), berisi `village.gd` v0.13 + `save_manager.gd` + `player_chibi.gd` v0.9 + 4 GLB yang dipakai + bangunan desa + musik ambient + 7 SFX (74 entri, nol entri `addons/`). PCK diverifikasi dengan memuatnya ke proyek Godot kosong: scene termuat dan mencetak v0.13, tombol Simpan ada, menu save tersembunyi (tanpa save), tanam petak 1 → file save ADA dan load dari PCK (karung 0, planted 1), usap timur menggerakkan pemain, tahan jalan timur 300 frame berhenti di tepi (x = 15,597, y ≈ 0), AKSI membuka dialog Sastro, pelacak quest "Tanam padi di 3 petak sawah (1/3)" (**PCK_CHECK PASS**). Uji otomatis **TEST V0.13 PASS 142/142**. Server HTTP lokal sementara (`python3 -m http.server 8942`, lalu dimatikan): 8 file utama status **200**. Zip: `REALM_web_v0.13.zip` (16.325.431 byte).
 - **Export ulang v0.12 (19 Nov 2026):** exit 0. `run/main_scene` sudah dikembalikan ke Boot, 3 autoload dev sudah dikembalikan. File `.pck` diperiksa: MD5 `02f833cc29652158567abb2d79c5db5b` (berbeda dari v0.11 `8ccafc661e33ab3a6564370a0292334b`), berisi `village.gd` v0.12 + `save_manager.gd` (baru) + `player_chibi.gd` v0.9 + 4 GLB yang dipakai (58 entri, 5.659.739 byte isi, nol entri `addons/`). PCK diverifikasi dengan memuatnya ke proyek Godot kosong: scene termuat dan mencetak v0.12, tombol Simpan ada, menu save tersembunyi (tanpa save), tanam petak 1 → file save ADA dan load dari PCK (karung 0, planted 1), usap timur menggerakkan pemain (-5 → 0 setelah 60 frame), tahan jalan timur 300 frame berhenti di tepi (x = 15,597, y ≈ 0, tidak jatuh), tombol AKSI membuka dialog Sastro, pelacak quest menunjukkan "★ Tujuan: Tanam padi di 3 petak sawah (1/3) — tekan E di petak kosong" (**PCK_CHECK PASS**). Uji otomatis **TEST V0.12 PASS 129/129**. Server HTTP lokal sementara (`python3 -m http.server 8941`, lalu dimatikan): 8 file utama status **200**. Zip: `REALM_web_v0.12.zip` (15.858.820 byte). Catatan jujur: save web tersimpan di IndexedDB browser per situs (hapus data situs / ganti browser = save hilang, tidak tersinkron antar perangkat); 9 SCRIPT ERROR di log export semuanya dari plugin editor (BetterTerrain/Cyclops, karena autoload dev dilepas sementara saat export) — bukan error game.
 - **Export ulang v0.11 (19 Nov 2026):** exit 0, tanpa SCRIPT ERROR
   (hanya pesan leak shutdown generik + satu SCRIPT ERROR dari plugin
@@ -295,14 +318,16 @@ ikuti saja. Pak Sastro menyapa saat kamu mendekat; dekati dan tekan E.
 
 ## Keterbatasan (jujur)
 
-- **v0.10 ini hanya gameplay — tampilan TIDAK diperbaiki.** Keluhan
+- **v0.14 ini hanya konten Penjahit — tampilan TIDAK diperbaiki.** Keluhan
   sehnxi soal palet "tidak hidup", detailing karakter, baju ganti, dan
   "3D tapi kayak 1D" masih berlaku; perbaikan visual v1.0 dihentikan
-  dan tidak dilanjutkan. Yang baru di v0.10 (pelacak quest, sapaan,
-  magang, hama 14 detik) baru diuji headless + emulasi sentuh —
-  **belum dicek di HP sungguhan sehnxi**. Trial Penjahit belum ada di
-  Godot (baru di prototipe Spaces). **Belum ada save** — progres hilang
-  kalau halaman ditutup.
+  dan tidak dilanjutkan. Yang baru di v0.14 (Nyai Sekar, trial Jahit,
+  magang Penjahit, 3 tombol sentuh Jahit) baru diuji headless + emulasi
+  sentuh — **belum dicek di HP sungguhan sehnxi**. Nama "Nyai Sekar"
+  belum dikonfirmasi sehnxi (dari build Spaces); urutan motif Parang
+  Sekar tetap sama setiap kali; "desain baju tahap pertama" baru berupa
+  gelar/teks, belum ada lemari/baju yang bisa diganti di game Godot;
+  SFX Jahit memakai ulang SFX Tempa.
 - **Sudah dimainkan sehnxi di HP (link v0.8)** — dan dari situlah bug
   v0.9 ketemu: karakter bisa keluar desa lalu jatuh. v0.9 memperbaikinya
   (batas desa + dinding tak terlihat + jaring pengaman), tapi perbaikan
