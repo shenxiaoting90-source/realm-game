@@ -1,9 +1,13 @@
 # REALM — Versi Web (HTML5) dari Prototipe Godot Chibi 3D
 
 **Dibuat:** 19 November 2026. Gratis 100%, tanpa bayar.
-**Isi:** desa Wilwatikta 3D chibi **v0.5** (di-export ulang 19 Nov 2026
-pukul 19:48 WIB dari ChibiVillage v0.5) — poles tampilan v0.4: langit
-prosedural hangat, palet ungu-emas konsisten di semua panel HUD,
+**Isi:** desa Wilwatikta 3D chibi **v0.7** (di-export ulang 19 Nov 2026
+dari ChibiVillage v0.7) — Novice kini model chibi Blender
+(`Rogue_chibi.glb`: kepala dilebarkan/dibulatkan, tunik/jubah ungu,
+logam emas, 76 animasi utuh); plus kontrol sentuh HP v0.6: D-pad kiri bawah
+untuk jalan, tombol AKSI kanan bawah (pengganti E), tombol Dagang 1/2
+saat panel dagang terbuka; plus semua isi v0.5: langit prosedural
+hangat, palet ungu-emas konsisten di semua panel HUD,
 label lokasi (BENGKEL / PASAR / SAWAH WILWATIKTA / RUMAH PENJAHIT),
 kamera wide shot lebih tinggi/mundur, tanaman 3 tahap dengan batang
 yang ikut tumbuh, tanah dan sawah lebih kontras, bunga di alun-alun;
@@ -23,7 +27,7 @@ Detail gameplay: `~/workspace/REALM_godot/docs/CHIBI3D_v0.1.md`.
 | `index.html` | Halaman utama — buka ini lewat server (lihat bawah) |
 | `index.js` | Loader/engine Godot untuk web (274 KB) |
 | `index.wasm` | Engine Godot WebAssembly, build **no-threads** (38 MB) |
-| `index.pck` | Data game: scene ChibiVillage, script, aset KayKit (8,9 MB; v0.5 9.304.780 byte, MD5 berbeda dari v0.4, berisi `ProceduralSkyMaterial_chibi`) |
+| `index.pck` | Data game: scene ChibiVillage, script, aset KayKit (10,9 MB; v0.7 10.871.876 byte, MD5 `9b0ff2a30d9ddda5f68bdf7068ba3e00`, berbeda dari v0.6, berisi `village.gd` v0.7 + `Rogue_chibi.glb` yang kini dipakai pemain Novice) |
 | `index.audio.worklet.js`, `index.audio.position.worklet.js` | Audio web |
 | `index.png`, `index.icon.png`, `index.apple-touch-icon.png` | Ikon |
 
@@ -49,9 +53,9 @@ header COOP/COEP khusus** — server HTTP biasa sudah cukup.
 
 ### Kebutuhan browser
 Browser modern (Chrome / Edge / Firefox / Safari terbaru), WebGL2,
-dan WebAssembly. RAM disarankan 2 GB+. Di HP bisa jalan, tapi kontrol
-keyboard (WASD, E, 1/2) paling enak di laptop/PC; belum ada tombol
-sentuh di layar.
+dan WebAssembly. RAM disarankan 2 GB+. Di HP kini ada kontrol sentuh (D-pad + tombol
+AKSI + tombol Dagang 1/2, lihat "Kontrol" di bawah); di laptop/PC
+pakai keyboard seperti biasa.
 
 ## Kontrol
 
@@ -60,6 +64,12 @@ sentuh di layar.
   panen, mulai menempa, memukul saat mini-game tempa berjalan, usir hama
 - **1 / 2** — saat pilihan dagang terbuka: 1 = Jual Pasti (+10 gold),
   2 = Kirim Jauh (hasil bervariasi, dijelaskan alasannya)
+- **Di HP (layar sentuh, v0.6):** D-pad kiri bawah (▲ ▼ ◀ ▶) untuk
+  jalan, tombol **AKSI** kanan bawah sebagai pengganti E (bicara, lanjut
+  dialog, tanam, panen, tempa, usir hama), tombol **1 — Jual Pasti /
+  2 — Kirim Jauh** muncul di atas tombol AKSI saat panel dagang terbuka.
+  Tombol sentuh hanya muncul di layar sentuh; di laptop/PC tetap
+  tersembunyi.
 
 ## Alur main (2–5 menit)
 
@@ -91,6 +101,40 @@ sentuh di layar.
 
 ## Verifikasi (19 Nov 2026, VM headless)
 
+- **Export ulang v0.7 (19 Nov 2026):** exit 0, tanpa SCRIPT ERROR
+  (hanya pesan leak shutdown generik saat proses headless keluar).
+  `run/main_scene` sudah dikembalikan ke Boot. File `.pck` diperiksa:
+  MD5 `9b0ff2a30d9ddda5f68bdf7068ba3e00` (berbeda dari v0.6
+  `e298fb4d1b4314152bd83f65656376ae`), berisi `Rogue_chibi.glb`
+  + tekstur ungu-emasnya (dicek lewat `strings` di `.pck`).
+  PCK diverifikasi dengan memuatnya ke proyek Godot kosong: scene
+  termuat dan mencetak v0.7, skala chibi 0.8, 76 animasi, Idle jalan,
+  D-pad menggerakkan pemain, tombol AKSI membuka dialog Sastro
+  (**PCK_CHECK PASS**). Server HTTP lokal sementara
+  (`python3 -m http.server 8936`, lalu dimatikan): semua file utama
+  status **200** — `index.html`, `index.js`, `index.wasm` (38 MB),
+  `index.pck` (10,9 MB), `index.audio.worklet.js`, `index.icon.png`.
+  Headless run scene mencetak `REALM — Chibi 3D v0.7… Novice chibi
+  Blender.`, tanpa SCRIPT ERROR. Uji regresi otomatis v0.7:
+  **96/96 lolos** (runner sementara sudah dihapus). Backup v0.6 ada di
+  `/tmp/REALM_web_v06_backup/`.
+  Zip baru: `workspace/user/files/REALM_web_v0.7.zip` (21 MB).
+- **Export ulang v0.6 (19 Nov 2026):** exit 0, tanpa SCRIPT ERROR
+  (hanya pesan leak shutdown generik saat proses headless keluar).
+  `run/main_scene` sudah dikembalikan ke Boot. File `.pck` diperiksa:
+  MD5 `e298fb4d1b4314152bd83f65656376ae` (berbeda dari v0.5
+  `16681ca68a40f3044f1ebf7107afb754`), berisi `village.gdc` v0.6.
+  PCK diverifikasi dengan memuatnya ke proyek Godot kosong: scene
+  termuat dan mencetak v0.6, TouchUI ada/tersembunyi/tampil, D-pad
+  menggerakkan pemain, tombol AKSI membuka dialog (**PCK_CHECK PASS**).
+  Server HTTP lokal sementara (`python3 -m http.server 8935`, lalu
+  dimatikan): semua file utama status **200** — `index.html`,
+  `index.js`, `index.wasm` (38 MB), `index.pck` (10,9 MB),
+  `index.audio.worklet.js`, `index.icon.png`. Headless run scene
+  mencetak `REALM — Chibi 3D v0.6… Kontrol sentuh HP aktif bila layar
+  sentuh tersedia.`, tanpa SCRIPT ERROR. Uji regresi otomatis v0.6:
+  **75/75 lolos**. Backup v0.5 ada di `/tmp/REALM_web_v05_backup/`.
+  Zip baru: `workspace/user/files/REALM_web_v0.6.zip` (21 MB).
 - **Export ulang v0.5 (19 Nov 2026, 19:48 WIB):** exit 0, tanpa SCRIPT
   ERROR (hanya pesan leak shutdown generik saat proses headless keluar).
   `run/main_scene` sudah dikembalikan ke Boot. File `.pck` diperiksa:
@@ -129,16 +173,21 @@ sentuh di layar.
 
 ## Keterbatasan (jujur)
 
-- **Belum diuji di browser grafis sungguhan** — VM ini headless, jadi
-  game belum benar-benar dimainkan lewat browser di sini. File-file
-  lengkap dan tersaji dengan benar, tapi tampilan, performa, dan
-  kontrol keyboard harus dicek di browser sungguhan (laptop/PC/HP).
-- Karakter kini model rigged KayKit (bukan lagi primitive), tapi belum
-  chibi penuh seperti Dewi Larasmaya (kepala belum diperbesar, atap
-  masih Eropa bukan limasan, belum ada tekstur batik). Desain v0.5
+- **Belum diuji di browser grafis sungguhan, apalagi di HP sungguhan**
+  — VM ini headless, jadi game belum benar-benar dimainkan lewat
+  browser di sini. File-file lengkap dan tersaji dengan benar, tapi
+  tampilan, performa, kontrol keyboard, dan terutama kontrol sentuh
+  (ukuran D-pad 84 px / tombol AKSI 150 px dalam viewport 1280×720
+  yang diskalakan ke layar HP) harus dicek di HP sungguhan sehnxi.
+  D-pad-nya digital 4 arah, bukan joystick analog.
+- Karakter Novice kini model chibi Blender (kepala dilebarkan/
+  dibulatkan, tunik/jubah ungu, logam emas — lihat
+  `docs/CHIBI_NOVICE_v0.1.md`), tapi 3 mentor masih model KayKit asli,
+  kepala Novice masih rasio 0,456 bukan 1/3 seperti Dewi Larasmaya,
+  atap masih Eropa bukan limasan, belum ada tekstur batik. Desain v0.5
   menambah langit prosedural hangat, label lokasi, kamera wide shot,
   dan tanaman berbatang, tapi atap limasan + batik Parang Sekar masih
-  belum bisa tanpa Blender. Belum ada suara/musik di versi Godot ini,
+  belum bisa tanpa pemodelan lebih lanjut di Blender. Belum ada suara/musik di versi Godot ini,
   belum ada save/load, multiplayer, atau build Android.
 - Loading pertama agak lama karena `index.wasm` 38 MB — itu normal
   untuk export web Godot; setelah itu game jalan lokal.
