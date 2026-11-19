@@ -1,8 +1,24 @@
 # REALM — Versi Web (HTML5) dari Prototipe Godot Chibi 3D
 
 **Dibuat:** 19 November 2026. Gratis 100%, tanpa bayar.
-**Isi:** desa Wilwatikta 3D chibi **v0.8** (di-export ulang 19 Nov 2026
-dari ChibiVillage v0.8) — gerak **usap jari di HP**: usap di mana saja di
+**Isi:** desa Wilwatikta 3D chibi **v0.11** (di-export ulang 19 Nov 2026
+dari ChibiVillage v0.11) — **performa maksimal: `index.pck` menyusut
+dari 15,0 MB ke 5,4 MB** (resource tak terpakai tidak ikut ter-export
+lagi — addon dev, GLB Knight/Rogue, audio tak terpakai, runner uji,
+cache editor — lewat `exclude_filter` di preset export; total folder
+web dari 55,6 MB ke 45,5 MB); **gameplay 3 menit pertama v0.10 tetap:
+pelacak quest yang selalu terlihat** ("★ Tujuan: …" di bawah strip status — temui Pak
+Sastro → tanam 3 petak → panen 3 karung → magang → Tempa → Dagang),
+**Pak Sastro menyapa** saat pemain baru mendekat ("Nak, kemari!"),
+**feedback tiap aksi** (status menghitung petak/karung/pukulan, prompt
+menampilkan sisa detik tumbuh), **hama adil 14 detik** (dulu 10 detik,
+dengan hitung mundur di status + prompt, dan timer berhenti selama
+dialog terbuka), dan **magang jelas setelah lulus trial** (panen 3
+karung lagi → Petani Pemula; 3 pukulan bagus lagi → Pandai Besi Pemula;
+3 transaksi lagi → Saudagar Pemula); plus batas desa v0.9: karakter
+tidak bisa lagi keluar desa lalu jatuh (clamp posisi ke [-16,16] + 4
+dinding tak terlihat di tepi tanah + jaring pengaman kembali ke spawn);
+plus gerak **usap jari di HP** v0.8: usap di mana saja di
 area game, karakter jalan mengikuti arah usapan (makin jauh makin cepat,
 lepas jari = berhenti), TANPA joystick visual sama sekali; plus kontrol
 sentuh HP v0.6 (D-pad kiri bawah untuk jalan, tombol AKSI kanan bawah
@@ -32,7 +48,7 @@ Detail gameplay: `~/workspace/REALM_godot/docs/CHIBI3D_v0.1.md`.
 | `index.html` | Halaman utama — buka ini lewat server (lihat bawah) |
 | `index.js` | Loader/engine Godot untuk web (274 KB) |
 | `index.wasm` | Engine Godot WebAssembly, build **no-threads** (38 MB) |
-| `index.pck` | Data game: scene ChibiVillage, script, aset KayKit (14,9 MB; v0.8 14.951.276 byte, MD5 `336e66fc20ff4e4164bb1b6a1307947f`, berbeda dari v0.7, berisi `village.gd` v0.8 + `Rogue_chibi.glb`; membesar karena 5 plugin pengembangan — Cyclops, Better Terrain, Inventory Manager, Juicee, gd-YAFSM — ikut ter-export oleh `export_filter="all_resources"`, padahal belum dipakai kode game) |
+| `index.pck` | Data game: scene ChibiVillage, script, aset KayKit (5,4 MB; v0.11 5.663.200 byte, MD5 `8ccafc661e33ab3a6564370a0292334b`, berbeda dari v0.10, berisi `village.gd` v0.11 + `player_chibi.gd` v0.9 + 4 GLB yang dipakai — Rogue_chibi, Rogue_Hooded, Barbarian, Mage — + bangunan desa; menyusut 62% dari v0.10 14.967.160 byte karena `exclude_filter` di preset export mengeluarkan semua addon dev, GLB Knight/Rogue yang tak terpakai, audio tak terpakai, runner uji, dan cache editor; file basi `index.pck-Z3j9Q8` (786 KB, sisa export lama, tidak dirujuk `index.html`/`index.js`) dihapus dari folder ini) |
 | `index.audio.worklet.js`, `index.audio.position.worklet.js` | Audio web |
 | `index.png`, `index.icon.png`, `index.apple-touch-icon.png` | Ikon |
 
@@ -78,17 +94,25 @@ pakai keyboard seperti biasa.
 
 ## Alur main (2–5 menit)
 
+Pelacak quest di bawah strip status selalu menunjukkan tujuan berikutnya —
+ikuti saja. Pak Sastro menyapa saat kamu mendekat; dekati dan tekan E.
+
 1. **Tani:** ke Pak Sastro (baju hijau, dekat rumah), E, baca dialog.
    Tanam 3 petak (E), tunggu ~4 detik sampai padi menguning, panen (E)
    sampai 3 karung → gelar "Murid Pak Sastro". Awas hama (bola gelap
-   di petak): dekati dan tekan E sebelum ~10 detik, kalau tidak petak
-   itu rusak — karung yang sudah dipanen tetap aman.
+   di petak): dekati dan tekan E sebelum **14 detik**, kalau tidak petak
+   itu rusak — karung yang sudah dipanen tetap aman. Hama tidak
+   menyerang selama kamu sedang bicara (timer berhenti saat dialog
+   terbuka). Setelah lulus, Sastro menawarkan **magang**: panen 3 karung
+   lagi → gelar "Petani Pemula".
 2. **Tempa:** ke Empu Wira (baju abu, timur, dekat tungku), E, baca
    dialog. Ke landasan, E untuk mulai, tekan E saat penanda merah di
-   zona hijau — 3 pukulan bagus = lulus → "Murid Empu Wira".
+   zona hijau — 3 pukulan bagus = lulus → "Murid Empu Wira". Magang:
+   tempa lagi 3 pukulan bagus → "Pandai Besi Pemula".
 3. **Dagang:** ke Nyai Kirana (baju ungu, barat, di lapak), E, baca
    dialog. Ke lapak, E, lalu 1 (Jual Pasti) atau 2 (Kirim Jauh).
-   Satu transaksi selesai = lulus → "Murid Nyai Kirana".
+   Satu transaksi selesai = lulus → "Murid Nyai Kirana". Magang:
+   3 transaksi lagi → "Saudagar Pemula".
 
 ## Cara export ini dibuat (supaya bisa diulang)
 
@@ -101,11 +125,95 @@ pakai keyboard seperti biasa.
 - Saat export, `run/main_scene` di `project.godot` **sementara** diganti
   ke `res://scenes/chibi3d/ChibiVillage.tscn`, lalu **dikembalikan** ke
   `res://scenes/boot/Boot.tscn` — main scene proyek tidak berubah permanen.
+- Sejak v0.11, saat export 3 autoload dev (`Juicee`, `BetterTerrain`,
+  `CyclopsAutoload`) juga **sementara** dihapus dari `project.godot` lalu
+  **dikembalikan** — plugin tetap terinstal dan aktif di editor, hanya
+  tidak ikut ter-export (tidak dipakai kode game sama sekali). Bersama
+  `exclude_filter` di preset ("addons/*, tools/*, docs/*, assets/audio/*,
+  GLB Knight/Rogue + teksturnya, .godot/exported/*,
+  .godot/global_script_class_cache.cfg"), ini yang memangkas `.pck`.
 - Perintah export (headless):
   `Godot_v4.7.2-stable_linux.x86_64 --headless --path . --export-release "Web" /home/hatch/workspace/user/files/REALM_web/index.html`
 
 ## Verifikasi (19 Nov 2026, VM headless)
 
+- **Export ulang v0.11 (19 Nov 2026):** exit 0, tanpa SCRIPT ERROR
+  (hanya pesan leak shutdown generik + satu SCRIPT ERROR dari plugin
+  editor Cyclops saat editor headless keluar — bukan error game).
+  `run/main_scene` sudah dikembalikan ke Boot, 3 autoload dev sudah
+  dikembalikan. File `.pck` diperiksa: MD5
+  `8ccafc661e33ab3a6564370a0292334b` (berbeda dari v0.10
+  `c641f515d1d948b8916b2a1d8606345c`), berisi `village.gd` v0.11 +
+  `player_chibi.gd` v0.9 + 4 GLB yang dipakai (56 entri, 5.655.900 byte
+  isi). PCK diverifikasi dengan memuatnya ke proyek Godot kosong: scene
+  termuat dan mencetak v0.11, usap timur menggerakkan pemain (x = 5,0
+  setelah 60 frame), tahan jalan timur 300 frame berhenti di tepi
+  (x = 15,597, y ≈ 0, tidak jatuh), tombol AKSI membuka dialog Sastro,
+  pelacak quest menunjukkan "★ Tujuan: Tanam padi di 3 petak sawah
+  (0/3) — tekan E di petak kosong" (**PCK_CHECK PASS**). Uji otomatis
+  **TEST V0.11 PASS 88/88**. Server HTTP lokal sementara
+  (`python3 -m http.server 8940`, lalu dimatikan): 8 file utama status
+  **200**. Zip: `REALM_web_v0.11.zip` (15.866.683 byte).
+- **Export ulang v0.10 (19 Nov 2026):** exit 0, tanpa SCRIPT ERROR
+  (hanya pesan leak shutdown generik saat proses headless keluar).
+  `run/main_scene` sudah dikembalikan ke Boot. File `.pck` diperiksa:
+  MD5 `c641f515d1d948b8916b2a1d8606345c` (berbeda dari v0.9
+  `9151e0caecb54d656f55498b5a366458`), berisi `village.gd` v0.10 +
+  `player_chibi.gd` v0.9 + `Rogue_chibi.glb`.
+  PCK diverifikasi dengan memuatnya ke proyek Godot kosong: scene
+  termuat dan mencetak v0.10, usap timur menggerakkan pemain (x = 5,0
+  setelah 60 frame), tahan jalan timur 300 frame berhenti di tepi
+  (x = 15,6, y ≈ 0, tidak jatuh), tombol AKSI membuka dialog Sastro,
+  pelacak quest menunjukkan "★ Tujuan: Tanam padi di 3 petak sawah
+  (0/3) — tekan E di petak kosong" (**PCK_CHECK PASS**). Server HTTP
+  lokal sementara (`python3 -m http.server 8939`, lalu dimatikan):
+  8 file utama status **200** — `index.html`, `index.js`,
+  `index.wasm` (38 MB), `index.pck` (15,0 MB),
+  `index.audio.worklet.js`, `index.audio.position.worklet.js`,
+  `index.png`, `index.icon.png`.
+  Headless run scene mencetak `REALM — Chibi 3D v0.10… Gameplay:
+  pelacak quest, sapaan Pak Sastro, magang setelah lulus trial, hama
+  adil 14 detik.`, tanpa SCRIPT ERROR. Uji gameplay otomatis v0.10:
+  **98/98 lolos** (runner sementara sudah dihapus) — quest, sapaan,
+  3 magang, hama 14 detik + jeda dialog, regresi batas desa v0.9 dan
+  kontrol. Backup v0.9 ada di `/tmp/REALM_web_v09_backup/`.
+  Zip baru: `workspace/user/files/REALM_web_v0.10.zip` (24 MB).
+- **Export ulang v0.9 (19 Nov 2026):** exit 0, tanpa SCRIPT ERROR
+  (hanya pesan leak shutdown generik saat proses headless keluar).
+  `run/main_scene` sudah dikembalikan ke Boot. File `.pck` diperiksa:
+  MD5 `9151e0caecb54d656f55498b5a366458` (berbeda dari v0.8
+  `336e66fc20ff4e4164bb1b6a1307947f`), berisi `village.gd` v0.9 +
+  `player_chibi.gd` v0.9 + `Rogue_chibi.glb`.
+  PCK diverifikasi dengan memuatnya ke proyek Godot kosong: scene
+  termuat dan mencetak v0.9, usap timur menggerakkan pemain (x = 5,0
+  setelah 60 frame), tahan jalan timur 300 frame berhenti di tepi
+  (x = 15,6, y ≈ 0, tidak jatuh), tombol AKSI membuka dialog Sastro
+  (**PCK_CHECK PASS**). Server HTTP lokal sementara
+  (`python3 -m http.server 8938`, lalu dimatikan): semua file utama
+  status **200** — `index.html`, `index.js`, `index.wasm` (38 MB),
+  `index.pck` (15,0 MB), `index.audio.worklet.js`, `index.icon.png`.
+  Headless run scene mencetak `REALM — Chibi 3D v0.9… Batas desa:
+  tidak bisa keluar lalu jatuh.`, tanpa SCRIPT ERROR. Uji regresi
+  otomatis v0.9: **65/65 lolos** (runner sementara sudah dihapus).
+  Backup v0.8 ada di `/tmp/REALM_web_v08_backup/`.
+  Zip baru: `workspace/user/files/REALM_web_v0.9.zip` (24 MB).
+- **Export ulang v0.8 (19 Nov 2026):** exit 0, tanpa SCRIPT ERROR
+  (hanya pesan leak shutdown generik saat proses headless keluar).
+  `run/main_scene` sudah dikembalikan ke Boot. File `.pck` diperiksa:
+  MD5 `336e66fc20ff4e4164bb1b6a1307947f` (berbeda dari v0.7
+  `9b0ff2a30d9ddda5f68bdf7068ba3e00`), berisi `village.gd` v0.8.
+  PCK diverifikasi dengan memuatnya ke proyek Godot kosong: scene
+  termuat dan mencetak v0.8, usap menggerakkan pemain, D-pad
+  menggerakkan pemain, tombol AKSI membuka dialog Sastro
+  (**PCK_CHECK PASS**). Server HTTP lokal sementara
+  (`python3 -m http.server 8937`, lalu dimatikan): semua file utama
+  status **200** — `index.html`, `index.js`, `index.wasm` (38 MB),
+  `index.pck` (14,9 MB), `index.audio.worklet.js`, `index.icon.png`.
+  Headless run scene mencetak `REALM — Chibi 3D v0.8… Gerak usap HP
+  (tanpa joystick visual) + D-pad + keyboard.`, tanpa SCRIPT ERROR.
+  Uji regresi otomatis v0.8: **91/91 lolos**. Backup v0.7 ada di
+  `/tmp/REALM_web_v07_backup/`.
+  Zip baru: `workspace/user/files/REALM_web_v0.8.zip` (24 MB).
 - **Export ulang v0.7 (19 Nov 2026):** exit 0, tanpa SCRIPT ERROR
   (hanya pesan leak shutdown generik saat proses headless keluar).
   `run/main_scene` sudah dikembalikan ke Boot. File `.pck` diperiksa:
@@ -178,12 +286,22 @@ pakai keyboard seperti biasa.
 
 ## Keterbatasan (jujur)
 
-- **Belum diuji di browser grafis sungguhan, apalagi di HP sungguhan**
-  — VM ini headless, jadi game belum benar-benar dimainkan lewat
-  browser di sini. File-file lengkap dan tersaji dengan benar, tapi
-  tampilan, performa, kontrol keyboard, dan terutama kontrol sentuh
-  (ukuran D-pad 84 px / tombol AKSI 150 px dalam viewport 1280×720
-  yang diskalakan ke layar HP) harus dicek di HP sungguhan sehnxi.
+- **v0.10 ini hanya gameplay — tampilan TIDAK diperbaiki.** Keluhan
+  sehnxi soal palet "tidak hidup", detailing karakter, baju ganti, dan
+  "3D tapi kayak 1D" masih berlaku; perbaikan visual v1.0 dihentikan
+  dan tidak dilanjutkan. Yang baru di v0.10 (pelacak quest, sapaan,
+  magang, hama 14 detik) baru diuji headless + emulasi sentuh —
+  **belum dicek di HP sungguhan sehnxi**. Trial Penjahit belum ada di
+  Godot (baru di prototipe Spaces). **Belum ada save** — progres hilang
+  kalau halaman ditutup.
+- **Sudah dimainkan sehnxi di HP (link v0.8)** — dan dari situlah bug
+  v0.9 ketemu: karakter bisa keluar desa lalu jatuh. v0.9 memperbaikinya
+  (batas desa + dinding tak terlihat + jaring pengaman), tapi perbaikan
+  itu baru diuji headless + emulasi sentuh — **masih harus dicek ulang
+  di HP sungguhan sehnxi**: jalan ke 4 tepi desa dengan usap dan D-pad,
+  pastikan karakter berhenti di tepi dan tidak jatuh. Ukuran D-pad
+  84 px / tombol AKSI 150 px dalam viewport 1280×720 yang diskalakan
+  ke layar HP juga belum dinilai di HP sungguhan.
   D-pad-nya digital 4 arah, bukan joystick analog.
 - Karakter Novice kini model chibi Blender (kepala dilebarkan/
   dibulatkan, tunik/jubah ungu, logam emas — lihat
