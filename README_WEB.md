@@ -1,8 +1,29 @@
 # REALM — Versi Web (HTML5) dari Prototipe Godot Chibi 3D
 
 **Dibuat:** 19 November 2026. Gratis 100%, tanpa bayar.
-**Isi:** desa Wilwatikta 3D chibi **v0.30** (di-export ulang 20 Nov 2026
-dari ChibiVillage v0.30) — **baru: MUSIM Kemarau/Hujan — berganti
+**Isi:** desa Wilwatikta 3D chibi **v0.31** (di-export ulang 20 Nov 2026
+dari ChibiVillage v0.31) — **baru: PET BERTINGKAT — Ayam Kampung
+(prosedural, tanpa aset baru): didapat dari Pak Sastro setelah lulus
+Trial Tani (bukan dibeli); mengikuti pemain di desa (jejak langkah,
+cepat 6 m/dtk, tetap di dalam pagar, tidak menembus bangunan);
+tier Biasa → Bagus → Langka → Super Rare — naik otomatis lewat
+panen (Bagus 10 karung, Langka 20 karung); bonus NYATA: padi tumbuh
+lebih cepat (Biasa 10%, Bagus 20%, Langka 30%, Super Rare 40% —
+Kemarau 2,7 / 2,4 / 2,1 / 1,8 dtk per tahap) + Jual Pasti tambah Gold
+(Bagus +2, Langka +5, Super Rare +10); Super Rare TIDAK naik
+otomatis — hanya lewat GM / quest rahasia (fondasi kode saja di
+prototipe single-player ini: belum ada NPC GM, quest rahasia baru
+berupa petunjuk tersembunyi di Rumpun Bambu); pet berteduh di emper
+rumah saat Hujan dan pemain jauh; pet + tier + petunjuk tersimpan di
+save (save lama tetap kebuka); seksi Pet baru di Menu (nama, tier,
+bonus, kemajuan, petunjuk)** — **baru juga: PERBAIKAN TUMPUKAN PANEL
+MENU (cacat sejak v0.29 — judul seksi menempel/menutupi baris isi,
+baris Musim ketutup kepala "Status Skill"): posisi semua baris kini
+diukur dari tinggi render sebenarnya (isi fs14, kepala fs17, judul
+fs20) dengan celah 4–6 px, baris panjang wrap DI DALAM panel (tidak
+lagi meluber keluar), tombol di dalam panel; dicek headless di 4
+keadaan (belum pet, Biasa, Langka + petunjuk, Super Rare)** —
+**v0.30 tetap: MUSIM Kemarau/Hujan — berganti
 otomatis tiap 360 detik bermain aktif (1 hari game 120 dtk, 1 musim 3
 hari), berpengaruh NYATA ke sawah: Kemarau padi tumbuh lambat (3,0
 dtk/tahap = 6 dtk total) + hama jarang (jeda 18 dtk, pertama 14 dtk),
