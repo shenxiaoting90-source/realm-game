@@ -1,8 +1,30 @@
 # REALM — Versi Web (HTML5) dari Prototipe Godot Chibi 3D
 
 **Dibuat:** 19 November 2026. Gratis 100%, tanpa bayar.
-**Isi:** desa Wilwatikta 3D chibi **v0.31** (di-export ulang 20 Nov 2026
-dari ChibiVillage v0.31) — **baru: PET BERTINGKAT — Ayam Kampung
+**Isi:** desa Wilwatikta 3D chibi **v0.32** (di-export ulang 20 Nov 2026
+dari ChibiVillage v0.32) — **baru: LOOP HARIAN — tiap hari game
+(120 detik main aktif) ada 3 tugas harian acak dari 6 macam (Tanam 2
+petak, Panen 1 karung, Dagang 1x di lapak, Tempa 1 pukulan bagus,
+Bicara dengan 1 NPC, Jahit 1 langkah motif benar), masing-masing
+selesai memberi +5 Gold (maks +15 Gold/hari); tugas berganti tiap
+hari baru dan yang belum selesai HANGUS (tidak menumpuk); sapaan
+harian berubah mengikuti hari/musim/progres ("Hari ke-N, musim
+Kemarau. Pak Sastro menunggumu di sawah."); NPC INGAT — Pak Sastro,
+Empu Wira, Nyai Kirana, Nyai Sekar berkomentar berbeda sesudah trial
+mereka lulus (judul dialog baru `again`, 2 baris per NPC); seksi
+KOLEKSI baru di Menu (4 trial, 4 magang, 4 skill, pet + tier, musim
+yang pernah dilewati, tugas harian yang pernah selesai — hanya yang
+benar-benar ada di game); semua state harian tersimpan di save
+(save lama tetap kebuka)** — **baru juga: HUD RESPONSIF HP — font
+membesar di layar kecil (skala dari lebar viewport: desktop ≥1000 px
+×1,0; 700–1000 px ×1,15; HP <700 px ×1,25 — di HP 390 px: judul fs28,
+tugas harian fs19, prompt fs23, isi Menu fs18, AKSI fs33); bar atas
+jadi tumpukan kolom di HP, baris Trial/Musim disembunyikan (isinya di
+Menu), tombol AKSI 170×170 + Menu 120×48, panel Menu tidak mepet tepi
+(margin ≥12 px), prompt/dialog/pilihan selalu di atas AKSI dan di
+dalam layar; di desktop ≥1000 px tampilan SAMA PERSIS seperti v0.31;
+warna/palet dan angle kamera TIDAK diubah** — **v0.31 tetap: PET
+BERTINGKAT — Ayam Kampung
 (prosedural, tanpa aset baru): didapat dari Pak Sastro setelah lulus
 Trial Tani (bukan dibeli); mengikuti pemain di desa (jejak langkah,
 cepat 6 m/dtk, tetap di dalam pagar, tidak menembus bangunan);
